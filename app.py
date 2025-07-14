@@ -7,7 +7,7 @@ load_dotenv()
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
 
-model = genai.GenerativeModel("models/gemini-1.5-flash")
+model = genai.GenerativeModel("models/gemini-2.5-pro")
 
 
 if "conversation_history" not in st.session_state:
@@ -18,7 +18,7 @@ def get_response(new_query):
 You are a memory-retentive bot. You can remember previous interactions and use that information to provide better responses.
 
 Instructions: 
-1. Always refer to previous questions and answers in your responses.
+1. Always refer to previous questions and answers in your response, but do not mention that you are doing so.
 2. If the user asks a new question, use the context of previous interactions to inform your answer.
 3. Always respond in a friendly and helpful manner.
 4. Just answer the question without repeating the question itself.
