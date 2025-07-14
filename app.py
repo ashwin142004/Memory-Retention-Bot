@@ -33,12 +33,11 @@ Below is the conversation so far between you and the user:
 
     full_prompt = f"{prompt_intro}\n{history_text}\nUser: {new_query}\nAssistant:"
 
-    try:
+    try:  
         response = model.generate_content(full_prompt)
         parts = response.candidates[0].content.parts
         text = ' '.join(part.text for part in parts)
 
-        # Save to history
         st.session_state.conversation_history.append((new_query, text.strip()))
         return text.strip()
 
