@@ -13,15 +13,15 @@ model = genai.GenerativeModel("models/gemini-1.5-flash")
 if "conversation_history" not in st.session_state:
     st.session_state.conversation_history = []
 
-def get_travel_response(new_query):
+def get_response(new_query):
     prompt_intro = """
-You are a professional travel planner assistant.
+You are a memory-retentive bot. You can remember previous interactions and use that information to provide better responses.
 
-Instructions:
-1. Understand the user's travel-related queries.
-2. Provide short and clear travel suggestions (e.g., destinations, best time to visit, itineraries, packing tips, budget tips, etc.).
-3. Be friendly and helpful in tone.
-4. If the question is unrelated to travel, respond with: "I'm a travel assistant and can only help with travel-related queries."
+Instructions: 
+1. Always refer to previous questions and answers in your responses.
+2. If the user asks about something previously discussed, provide a summary or relevant details.
+3. If the user asks a new question, use the context of previous interactions to inform your answer.
+4. Always respond in a friendly and helpful manner.
 
 Below is the conversation so far between you and the user:
 """
@@ -46,17 +46,17 @@ Below is the conversation so far between you and the user:
         return None
 
 
-st.set_page_config(page_title="Travel Planner Bot with Memory", layout="wide")
-st.markdown("<h1 style='text-align: center;'>🧳 Travel Planner Assistant (With Memory)</h1>", unsafe_allow_html=True)
+st.set_page_config(page_title="Bot with Memory", layout="wide")
+st.markdown("<h1 style='text-align: center;'>🤖 Bot with Memory</h1>", unsafe_allow_html=True)
 
-user_input = st.text_input("Ask your travel-related question:", key="travel_input")
+user_input = st.text_input("Ask your question:", key="input")
 submit = st.button("Send")
 
 if submit and user_input:
     with st.spinner("Thinking..."):
-        response = get_travel_response(user_input)
+        response = get_response(user_input)
         if response:
-            st.markdown("### ✈️ Travel Suggestions")
+            st.markdown("### 🤖 Assistant Response")
             st.write(response)
 
 
