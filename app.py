@@ -46,22 +46,26 @@ Below is the conversation so far between you and the user:
         return None
 
 
-st.set_page_config(page_title="Bot with Memory", layout="wide")
-st.markdown("<h1 style='text-align: center;'>🤖 Bot with Memory</h1>", unsafe_allow_html=True)
 
-user_input = st.text_input("Ask your question:", key="input")
-submit = st.button("Send")
+# Streamlit UI with Chat Interface
+st.set_page_config(page_title="Memory Chatbot", layout="wide")
+st.title("🤖 Memory Chatbot")
 
-if submit and user_input:
+# Display previous messages in chat bubbles
+for q, a in st.session_state.conversation_history:
+    with st.chat_message("user"):
+        st.markdown(q)
+    with st.chat_message("assistant"):
+        st.markdown(a)
+
+# Chat input box at the bottom
+if prompt := st.chat_input("Type your message here..."):
+    with st.chat_message("user"):
+        st.markdown(prompt)
+
     with st.spinner("Thinking..."):
-        response = get_response(user_input)
-        if response:
-            st.markdown("### 🤖 Assistant Response")
-            st.write(response)
+        response = get_response(prompt)
 
-
-if st.checkbox("Show full conversation history"):
-    st.markdown("### 🗂️ Chat History")
-    for i, (q, a) in enumerate(st.session_state.conversation_history):
-        st.markdown(f"**You:** {q}")
-        st.markdown(f"**Assistant:** {a}")
+    if response:
+        with st.chat_message("assistant"):
+            st.markdown(response)
